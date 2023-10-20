@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Inclure Bootstrap CSS -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+    /> -->
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <!-- Inclure Bootstrap JavaScript (jQuery requis) -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script> -->
+
+    <!-- =====BOX ICONS===== -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="stylesheet" href="assets/scss/styles.scss" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="asserts/scss/styles.css" />
+    <title>RAHIM</title>
+  </head>
+  <body>
+    <div id="rahim-app">
+      <!-- START NAV -->
+      <nav>
+        <div class="nav container">
+          <li>
+            <a href="#Homme" class="logo" @click="show('Home')">RAHIM</a>
+          </li>
+          <div id="nav-content">
+            <div id="nav-menu">
+              <ul>
+                <li :class="{ 'active': section === 'About' }">
+                  <a href="#about" @click="show('About')">About</a>
+                </li>
+                <li :class="{ 'active': section === 'Expérience' }">
+                  <a href="#experience" @click="show('Expérience')"
+                    >Expérience</a
+                  >
+                </li>
+                <li :class="{ 'active': section === 'Services' }">
+                  <a href="#services" @click="show('Services')">Services</a>
+                </li>
+                <li :class="{ 'active': section === 'Skills' }">
+                  <a href="#skills" @click="show('Skills')">Skills</a>
+                </li>
+                <li :class="{ 'active': section === 'Contact' }">
+                  <a href="#contact" @click="show('Contact')">Contact</a>
+                </li>
+              </ul>
+              <span id="nav_toggle"><i class="fa-solid fa-list"></i></span>
+            </div>
+            <a href="#" id="mode-switch" @click="toggleMode">
+              <i
+                id="modeBtn"
+                :class="modeBtnClass"
+                :style="{color:modeBtnColor}"
+              ></i>
+              <!-- <i id="modeBtn" class="" style="color: #ffbb00;"></i> -->
+            </a>
+          </div>
+        </div>
+      </nav>
+      <!-- END NAV -->
+      <!-- START HOME -->
+      <div id="home">
+        <div id="home-content" class="container">
+          <div id="home-infos">
+            <h1>Hi, I am</h1>
+            <h1 id="name">{{first_name.toUpperCase()}}</h1>
+            <h1>PhD Student</h1>
+            <a href="#" id="cv">Donwload CV</a>
+            <div class="links">
+              <a href="https://www.linkedin.com/in/abderrahim-mechache-8ba896208/" target="_blank"><i class="fab fa-linkedin"></i></a>
+              <a href="https://github.com/MechacheAbderrahim" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+          <div id="home-img"></div>
+        </div>
+      </div>
+      <!-- END HOME -->
+      <!-- START ABOUT -->
+      <div id="about">
+        <div class="container">
+          <h1 class="text-title text-center">ABOUT</h1>
+          <p class="text-desc text-center">WHO AM I ?</p>
+          <div id="about-content">
+            <div id="perso_img"></div>
+            <div>
+              <h1 id="name">
+                {{(last_name + " " + first_name).toUpperCase()}}
+              </h1>
+              <p>{{my_about[0]}}</p>
+              <p>{{my_about[1]}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END ABOUT -->
+
+      <!-- START EXPERIENCE -->
+      <div id="experience">
+        <div class="container">
+          <h1 class="text-title text-center">EXPERIENCE</h1>
+          <div id="experiences-content">
+            <h3 class="text-center titles"><i class="fa-solid fa-file"></i>RESEARCH PAPERS</h3>
+            <div class="exp res" v-for="paper in papers" :key="paper.id"
+            >
+              <div class="exp-info" @click="papers[paper.id].show = !papers[paper.id].show">
+                <h4>
+                  <i class="fa-solid fa-file"></i>{{paper.abrv}}</h4>
+                <div>
+                  <p>{{paper.year}}</p>
+                </div>
+              </div>
+              <div class="exp-desc" v-show="paper.show">
+                <p>Title: <span>""{{paper.title}}."."</span></p>
+                <p>Authors: <span>{{paper.authors}}</span></p>
+                <p>Conference: <span>{{paper.conf}}</span></p>
+                <p class="description"><span>Abstract: </span>{{paper.description }}</p>
+                <a v-if="paper.link" :href="paper.link" target="_blank">see more</a>
+                <i class="fa-solid fa-circle-arrow-up" @click="papers[paper.id].show = !papers[paper.id].show"></i>
+              </div>
+            </div>
+
+            <h3 class="text-center titles"><i class="fa-solid fa-graduation-cap"></i> FORMATIONS</h3>
+            <div class="exp" v-for="formation in formations" :key="formation.id"
+            >
+              <div class="exp-info" @click="formations[formation.id].show = !formations[formation.id].show">
+                <h4>
+                  <i class="fa-solid fa-graduation-cap"></i>{{formation.type+" - "+formation.abrv}}</h4>
+                <div>
+                  <p>{{formation.prime}}</p>
+                </div>
+              </div>
+              <div class="exp-desc" v-show="formation.show">
+                <p>Title: <span>"{{formation.title}}."</span></p>
+                <div class="location">
+                  <p>University: <span>{{formation.univ}}</span></p>
+                  <p>Location: <span>{{formation.place}}</span></p>
+                </div>
+                <p v-if="formation.rang" >Rang: <span>{{formation.rang}}</span></p>
+                <p v-if="formation.type=='PhD Student'" class="description"><span>Abstract: </span>{{formation.description }}</p>
+                <!-- <p v-else class="description">{{formation.description }}</p> -->
+                <a v-if="formation.link" :href="formation.link" target="_blank">see more</a>
+                <i class="fa-solid fa-circle-arrow-up" @click="formations[formation.id].show = !formations[formation.id].show"></i>
+              </div>
+            </div>
+
+            <h3 class="text-center titles"><i class="fa-solid fa-laptop-file"></i> PROJECTS</h3>
+            <div class="exp" v-for="project in projects" :key="project.id"
+            >
+              <div class="exp-info" @click="projects[project.id].show = !projects[project.id].show">
+                <h4>
+                  <i class="fa-solid fa-laptop-file"></i>{{project.abrv}}</h4>
+                <div>
+                  <p>{{project.year}}</p>
+                </div>
+              </div>
+              <div class="exp-desc" v-show="project.show">
+                <p>Title: <span>"{{project.title}}."</span></p>
+                <div class="location">
+                  <p>Client: <span>{{project.company}}</span></p>
+                  <p>Location: <span>{{project.place}}</span></p>
+                </div>
+                <p class="description"><span>Project Details: </span>{{project.description }}</p>
+                <a v-if="project.link" :href="project.link" target="_blank">see more</a>
+                <i class="fa-solid fa-circle-arrow-up" @click="projects[project.id].show = !projects[project.id].show"></i>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+      <!-- END EXPERIENCE -->
+      <!-- START SERVICES -->
+      <div id="services">
+        <div class="container">
+          <h1 class="text-title text-center">SERVICES</h1>
+          <p class="text-desc text-center">WHAT CAN I DO FOR YOU ?</p>
+          <div id="services-content">
+            <div
+              class="servicse-box"
+              v-for="service in services"
+              :key="service.id"
+              @click="show_Modal(service.id)"
+              type="button"
+              data-bs-toggle="modal"
+              :data-bs-target="'#exampleModal'+service.id"
+            >
+              <i :class="'fa-solid fa-' + service.icon"></i>
+              <h3>{{service.name}}</h3>
+              <p>{{service.description}}</p>
+            </div>
+          </div>
+        </div>
+        <modal-service
+          v-for="service in services"
+          :key="service.id"
+          :identifiant="service.id"
+          :lines="service.lines"
+          :title="service.name"
+        ></modal-service>
+      </div>
+      <!-- END SERVICES -->
+
+      <!-- START SKILLS -->
+      <div id="skills">
+        <div class="container">
+          <h1 class="text-title text-center">SKILLS</h1>
+          <p class="text-desc text-center">WHAT I AM DOING ?</p>
+          <div id="skills-content">
+            <div
+              class="skill-box"
+              v-for="service in services"
+              :key="service.id"
+            >
+              <h3>{{service.title}}.</h3>
+              <div class="s_box" v-for="L in service.languages">
+                <i :class="L.icon"></i>
+                <p>{{L.lang}}</p>
+                <span class="s_pro" :style="{ width: L.prog + '%' }"></span>
+                <p class="s_prorgess">{{ L.prog }} %</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END SKILLS -->
+
+      <!-- START CONTACT -->
+      <div id="contact" class="text-center">
+        <div id="contact-content">
+          <h3>Contact me in</h3>
+          <h1>{{Email}}</h1>
+          <h3>Follow me in</h3>
+          <h1>
+            <a href="https://www.linkedin.com/in/abderrahim-mechache-8ba896208/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://liris.cnrs.fr/page-membre/abderrahim-mechache" target="_blank"><i class="fab fa-twitter"></i></a>
+          </h1>
+        </div>
+        <div id="to-up">
+          <a href="#home"><i class="fa-solid fa-arrow-up"></i></a>
+        </div>
+      </div>
+      <!-- END CONTACT -->
+    
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script src="asserts/js/vue.js"></script>
+    <script src="asserts/js/main.js"></script>
+  </body>
+</html>
